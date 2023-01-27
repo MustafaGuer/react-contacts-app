@@ -7,13 +7,12 @@ import styles from "./AddContact.module.css";
 import ErrorModal from "../../UI/ErrorModal/ErrorModal";
 
 const AddUser = (props) => {
-  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [age, setAge] = useState("");
-  const [error, setError] = useState();
 
   const addContactHandler = (event) => {
     event.preventDefault();
@@ -24,7 +23,7 @@ const AddUser = (props) => {
       email.trim().length === 0 ||
       age.trim().length === 0
     ) {
-      setError({
+      props.onCallErrorModal({
         title: "Invalid input",
         message: "Please enter a valid input (non-empty values).",
       });
@@ -32,7 +31,7 @@ const AddUser = (props) => {
     }
 
     if (!emailRegex.test(email)) {
-      setError({
+      props.onCallErrorModal({
         title: "Invalid email",
         message: "Please enter a valid email (jdoe@foo.bar)",
       });
@@ -40,7 +39,7 @@ const AddUser = (props) => {
     }
 
     if (+age < 1) {
-      setError({
+      props.onCallErrorModal({
         title: "Invalid age",
         message: "Please enter a valid age (>0)",
       });
@@ -79,17 +78,15 @@ const AddUser = (props) => {
     setAge(event.target.value);
   };
 
-  const errorHandler = () => {
-    setError(null);
-  };
-
   return (
     <div>
-      {error && (
+      {props.onError && (
         <ErrorModal
-          title={error.title}
-          message={error.message}
-          onConfirm={errorHandler}
+          title={props.onError.title}
+          message={props.onError.message}
+          onConfirm={props.onCloseErrorModal}
+          onDelete={props.onDelete}
+          onConfirmDeleteError={props.onConfirmDeleteError}
         />
       )}
       <Card className={styles.input}>
@@ -130,9 +127,9 @@ const AddUser = (props) => {
           />
           <div className={styles.actions}>
             <Button type="submit">Add User</Button>
-            <Button type="button" onClick={props.onDeleteContacts}>
+            {props.contactsAmount > 0 && <Button type="button" onClick={props.onDeleteContacts}>
               Delete Contacts
-            </Button>
+            </Button>}
           </div>
         </form>
       </Card>

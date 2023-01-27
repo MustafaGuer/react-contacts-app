@@ -17,7 +17,12 @@ const ErrorModal = (props) => {
           <p>{props.message}</p>
         </div>
         <footer className={styles.actions}>
-          <Button onClick={props.onConfirm}>Okay</Button>
+          {props.onDelete ? (
+            <Button onClick={props.onConfirmDeleteError}>Okay</Button>
+          ) : (
+            <Button onClick={props.onConfirm}>Okay</Button>
+          )}
+          {props.onDelete && <Button onClick={props.onConfirm}>Cancel</Button>}
         </footer>
       </Card>
     </div>
