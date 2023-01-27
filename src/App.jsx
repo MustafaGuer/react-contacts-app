@@ -4,7 +4,7 @@ import AddContact from "./components/AddContact/AddContact";
 import ContactsList from "./components/ContactsList/ContactsList";
 
 function App() {
-  const dataFromStorage = JSON.parse(localStorage.getItem("users"));
+  const dataFromStorage = JSON.parse(localStorage.getItem("contacts"));
   const [contactsList, setContactsList] = useState(dataFromStorage || []);
 
   const addContactHandler = (contact) => {
@@ -13,11 +13,23 @@ function App() {
     });
   };
 
-  localStorage.setItem("users", JSON.stringify(contactsList));
+  if (contactsList.length > 0) {
+    localStorage.setItem("contacts", JSON.stringify(contactsList));
+  }
+
+  const deleteContactsHandler = () => {
+    localStorage.removeItem('contacts');
+    setContactsList([]);
+  }
 
   return (
     <div>
-      <AddContact onAddContact={addContactHandler} />;
+      <AddContact
+        onAddContact={addContactHandler}
+        contactsAmount={contactsList.length}
+        onDeleteContacts={deleteContactsHandler}
+      />
+      ;
       <ContactsList contacts={contactsList} />;
     </div>
   );
