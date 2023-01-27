@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
 
-import styles from "./AddUser.module.css";
+import styles from "./AddContact.module.css";
 
-const AddUser = () => {
+const AddUser = (props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,15 +13,32 @@ const AddUser = () => {
 
   const addContactHandler = (event) => {
     event.preventDefault();
+    if (
+      firstName.trim().length === 0 ||
+      lastName.trim().length === 0 ||
+      email.trim().length === 0 ||
+      age.trim().length === 0
+    ) {
+      return;
+    }
+    if (+age < 1) {
+      return;
+    }
     const contact = {
-      id: null,
-      first_name: firstName,
-      last_name: lastName,
+      id: Math.random().toString(),
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       age: age,
     };
 
     console.log(contact);
+    props.onAddContact(contact);
+
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setAge("");
   };
 
   const firstNameChangeHandler = (event) => {
@@ -72,7 +89,7 @@ const AddUser = () => {
           Age
         </label>
         <input value={age} onChange={ageChangeHandler} id="age" type="number" />
-        <Button type='submit'>Add User</Button>
+        <Button type="submit">Add User</Button>
       </form>
     </Card>
   );
