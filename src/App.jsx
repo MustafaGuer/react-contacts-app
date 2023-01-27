@@ -18,9 +18,9 @@ function App() {
   }
 
   const deleteContactsHandler = () => {
-    localStorage.removeItem('contacts');
+    localStorage.removeItem("contacts");
     setContactsList([]);
-  }
+  };
 
   return (
     <div>

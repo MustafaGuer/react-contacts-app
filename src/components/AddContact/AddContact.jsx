@@ -130,7 +130,9 @@ const AddUser = (props) => {
           />
           <div className={styles.actions}>
             <Button type="submit">Add User</Button>
-            <Button type="button" onClick={props.onDeleteContacts}>Delete Contacts</Button>
+            <Button type="button" onClick={props.onDeleteContacts}>
+              Delete Contacts
+            </Button>
           </div>
         </form>
       </Card>
