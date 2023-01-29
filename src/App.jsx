@@ -46,7 +46,7 @@ function App() {
   };
 
   return (
-    <div>
+    <>
       <AddContact
         onAddContact={addContactHandler}
         contactsAmount={contactsList.length}
@@ -59,7 +59,7 @@ function App() {
       />
       ;
       <ContactsList contacts={contactsList} />;
-    </div>
+    </>
   );
 }
 
