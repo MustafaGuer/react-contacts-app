@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
@@ -10,6 +10,8 @@ import ErrorModal from "../../UI/ErrorModal/ErrorModal";
 const AddUser = (props) => {
   const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 
+  const funInputRef = useRef();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -18,6 +20,8 @@ const AddUser = (props) => {
   const addContactHandler = (event) => {
     event.preventDefault();
 
+    const funRef = funInputRef.current.value;
+    console.log(funRef);
     if (
       firstName.trim().length === 0 ||
       lastName.trim().length === 0 ||
@@ -61,6 +65,7 @@ const AddUser = (props) => {
     setLastName("");
     setEmail("");
     setAge("");
+    funInputRef.current.value = ''; // normally u shouldn't change value in the dom with ref 
   };
 
   const firstNameChangeHandler = (event) => {
@@ -126,6 +131,8 @@ const AddUser = (props) => {
             id="age"
             type="number"
           />
+          <label htmlFor="fun">Text unsaved (testing refs)</label>
+          <input id="fun" ref={funInputRef} />
           <div className={styles.actions}>
             <Button type="submit">Add User</Button>
             {props.contactsAmount > 0 && <Button type="button" onClick={props.onDeleteContacts}>
